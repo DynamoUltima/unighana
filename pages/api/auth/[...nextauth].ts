@@ -58,7 +58,7 @@ export default NextAuth({
         console.log(password)
 
         try {
-          const response = await axios.post('api/login', {
+          const response = await axios.post('/api/login', {
             email, password
           })
   
