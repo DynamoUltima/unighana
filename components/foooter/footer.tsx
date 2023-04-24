@@ -4,7 +4,7 @@ const Footer = () => {
       <div className="bg-[#f8fafe] grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 lg:gap-10 px-10 py-10 rounded-3xl items-center justify-center ">
         <div className="flex flex-col items-center lg:items-start gap-5">
           <div className=''><div className="font-bold">UniGhana</div></div>
-          <p className="text-center lg:text-start">£#########</p>
+          <p className="text-center lg:text-start">#########</p>
         </div>
         <div className="flex flex-col items-center lg:items-start gap-5">
           <p className="text-xl font-extrabold">Company</p>

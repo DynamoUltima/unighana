@@ -77,7 +77,7 @@ export default NextAuth({
                 email, password
               })
       
-              console.log(response)
+              // console.log(response)
               
                console.log('signup')
                user = response.data;

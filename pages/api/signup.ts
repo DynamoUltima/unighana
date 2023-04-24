@@ -36,7 +36,7 @@ export default async function handler(
 
 
       return res.status(200).
-        json({ message: "Success", user:{email:user.email,_id:user._id}})
+        json({ message: "success", user:{email:user.email,_id:user._id}})
 
     }
 

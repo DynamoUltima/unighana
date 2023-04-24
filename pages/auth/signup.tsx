@@ -21,12 +21,15 @@ const SignUp = () => {
     
 
     if (session?.user.message=='success') {
+        toast.success(session?.user.message)
         router.push('/dashboard')
     }
 
 
     const handlesignUp = async (e: any) => {
         e.preventDefault()
+
+        console.log({firstName,lastName,email,password})
 
         try {
 
@@ -62,7 +65,7 @@ const SignUp = () => {
         }
 
 
-        console.log({ email, password })
+        
 
     }
 
@@ -92,7 +95,7 @@ const SignUp = () => {
                             <input
                                 id="first-name"
                                 name="first-name"
-                                type="text "
+                                type="text"
                                 // autoComplete="email"
                                 value={firstName}
                                 onChange={(e) => setFirstName(e.target.value)}
@@ -157,8 +160,8 @@ const SignUp = () => {
 
                         <div className="pt-10">
                             <button
-                                 onSubmit={handlesignUp}
-                                // onClick={handlesignUp}
+                                //  onSubmit={handlesignUp}
+                                 onClick={handlesignUp}
                                 type="submit"
                                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#2DD4BF] hover:bg-[#2DD4BF] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2DD4BF]"
 

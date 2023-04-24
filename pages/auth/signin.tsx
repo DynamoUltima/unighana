@@ -10,7 +10,7 @@ const Signin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     
-    
+      console.log(session)
       if(session?.user.message=='success'){
     //    notify = toast.success(session?.user.message)
         router.push('/dashboard')
