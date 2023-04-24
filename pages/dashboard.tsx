@@ -1,7 +1,31 @@
-import { signOut } from "next-auth/react";
+import { GetSessionParams, getSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 
+export async function getServerSideProps(context: GetSessionParams | undefined) {
+    const session = await getSession(context);
+  
+    if (!session?.user.user) {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
+      };
+    }
+  
+    // const user = await prisma.user.findUnique({
+    //   where: { id: session.userId },
+    // });
+  
+    return {
+      props: { user :''},
+    };
+  }
+
+
 const Dashboard = () => {
+
+    
 
 
     const router =  useRouter()

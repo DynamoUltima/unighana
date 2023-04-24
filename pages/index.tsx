@@ -9,10 +9,14 @@ import Excellence from "../assets/images/excellence-image.png"
 import Footer from '@/components/foooter/footer'
 import UniCards from '@/components/cards/uniCards'
 import { AshesiDescription, KnustDescription, UgDescription } from '@/data/data'
+import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home(){
+
+ 
   return (
     <div className="relative m-auto  h-screen overflow-x-hidden">
 

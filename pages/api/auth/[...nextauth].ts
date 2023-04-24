@@ -33,7 +33,7 @@ export default NextAuth({
       credentials: {
         email: { label: "email", type: "text", placeholder: "" },
         password: { label: "Password", type: "text" },
-        // firstName: { label: "firstName", type: "text" },
+        firstName: { label: "firstName", type: "text" },
         // lastName: { label: "lastName", type: "text" },
         // phone: { label: "phone", type: "text" },
       },
@@ -49,7 +49,7 @@ export default NextAuth({
  
         let email = credentials?.email;
         let password = credentials?.password;
-        // let firstName = credentials?.firstName;
+        let firstName = credentials?.firstName;
         // let lastName = credentials?.lastName;
         // let phone = credentials?.phone;
         
@@ -58,14 +58,32 @@ export default NextAuth({
         console.log(password)
 
         try {
-          const response = await axios.post('https://unighana-pi.vercel.app/api/login', {
-            email, password
-          })
-  
-          console.log(response)
+
+          let user;
+          if(!firstName){
+            const response = await axios.post('http://localhost:3000/api/login', {
+              email, password
+            })
+    
+            // console.log(response)
+            
+             console.log('log in')
+             user = response.data;
+          }
+
           
-           console.log('log in')
-          const user = response.data;
+            if(firstName){
+              const response = await axios.post('http://localhost:3000/api/signup', {
+                email, password
+              })
+      
+              console.log(response)
+              
+               console.log('signup')
+               user = response.data;
+            }
+          
+          
     
   
   

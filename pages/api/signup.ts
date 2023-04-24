@@ -19,18 +19,18 @@ export default async function handler(
 
     await connectMongo();
     console.log(req.body)
-    const { firstName, lastName, email, password, phone} = req.body
+    const { firstName, lastName, email, password, } = req.body
     
 
     const userExist = await User.findOne({ email })
-    if (userExist) return res.status(403).json({ error: "Email has already been taken" });
+    if (userExist) return res.status(403).json({message:"Email has already been taken", });
 
 
     const hashedPassword = await hash(password, 10)
     console.log(hashedPassword);
 
 
-    const user = await  User.create({ firstName, lastName, email, phone, password: hashedPassword })
+    const user = await  User.create({ firstName, lastName, email, password: hashedPassword })
 
     if (user) {
 

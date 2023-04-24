@@ -10,6 +10,12 @@ const Signin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     
+    
+      if(session?.user.message=='success'){
+    //    notify = toast.success(session?.user.message)
+        router.push('/dashboard')
+      }
+    
 
     
 
@@ -25,19 +31,14 @@ const Signin = () => {
                 email: email,
                 password: password,
                 redirect: false,
-                // callbackUrl: "http://localhost:8080/businessPage",
+                
             });
             data;
             console.log('AuthPage')
             // console.log(data)
             console.log(session)
-         if(session?.user.message!='success'){
-            toast.error(session?.user.message)
-          }
-          if(session?.user.message=='success'){
-            toast.success(session?.user.message)
-            router.push('/dashboard')
-          }
+            // notify
+         
           setEmail('')
           setPassword('')
             
@@ -120,9 +121,7 @@ const Signin = () => {
                                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#2DD4BF] hover:bg-[#2DD4BF] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 
                             >
-                                {/* <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                                    <LockClosedIcon className="h-5 w-5 text-[#14b8a6] group-hover:text-[#14b8a6]" aria-hidden="true" />
-                                </span> */}
+                                
                                 Sign in
                             </button>
                         </div>

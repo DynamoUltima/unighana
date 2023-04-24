@@ -1,9 +1,9 @@
 // import { LockClosedIcon } from "@heroicons/react/solid";
 import { signIn, useSession } from "next-auth/react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
 
 
 
@@ -20,7 +20,7 @@ const SignUp = () => {
     const [lastName, setLastName] = useState('')
     
 
-    if (session?.user.user) {
+    if (session?.user.message=='success') {
         router.push('/dashboard')
     }
 
@@ -41,9 +41,18 @@ const SignUp = () => {
             console.log('signupPage')
             console.log(data)
             // console.log(session)
-            setEmail('');
-            setPassword('')
-            console.log(session?.user.user)
+            // if(session?.user.message!='success'){
+            //     toast.error(session?.user.message)
+            //   }
+            // if(session?.user.message=='success'){
+            //     toast.success(session?.user.message)
+            //     router.push('/dashboard')
+            // }
+            //   setEmail('')
+            //   setPassword('')
+            // setFirstName('');
+            // setLastName('')
+            console.log(session)
            
 
 
@@ -66,7 +75,7 @@ const SignUp = () => {
                     <div>
                        
                         <div className='mx-auto  flex justify-center relative'><div>Unighana</div></div>
-                        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+                        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Create An Accout</h2>
                         <p className="mt-2 text-center text-sm text-gray-600">
 
                             <a className="font-medium text-lg text-[#2DD4BF] hover:text-[#2DD4BF]">
@@ -117,7 +126,7 @@ const SignUp = () => {
                                     id="email-address"
                                     name="email"
                                     type="email"
-                                    autoComplete="off"
+                                    autoComplete="new-email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
@@ -148,8 +157,8 @@ const SignUp = () => {
 
                         <div className="pt-10">
                             <button
-                                // onSubmit={handleSignUp}
-                                onClick={handlesignUp}
+                                 onSubmit={handlesignUp}
+                                // onClick={handlesignUp}
                                 type="submit"
                                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#2DD4BF] hover:bg-[#2DD4BF] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2DD4BF]"
 
@@ -170,6 +179,7 @@ const SignUp = () => {
                             </div>
 
                     </form>
+                    <ToastContainer />
                 </div>
             </div>
         </>
