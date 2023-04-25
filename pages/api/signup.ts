@@ -40,14 +40,16 @@ export default async function handler(
 
     }
 
-    return res.status(400).json({
-      message: "error"
-    })
+    // return res.status(400).json({
+    //   message: "error"
+    // })
+    throw Error('error')
 
 
   } catch (error: any) {
     console.log(error);
-    return res.status(400).json({ error: error.message })
+    // return res.status(400).json({ error: error.message })
+    throw Error(error.message)
 
   }
 

@@ -13,17 +13,16 @@ const SignUp = () => {
     const router = useRouter();
 
     const { data: session } = useSession()
-    console.log({ session })
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     
 
-    if (session?.user.message=='success') {
-        toast.success(session?.user.message)
-        router.push('/dashboard')
-    }
+    // if (session?.user.message=='success') {
+    //     toast.success(session?.user.message)
+    //     router.push('/dashboard')
+    // }
 
 
     const handlesignUp = async (e: any) => {
@@ -44,17 +43,17 @@ const SignUp = () => {
             console.log('signupPage')
             console.log(data)
             // console.log(session)
-            // if(session?.user.message!='success'){
-            //     toast.error(session?.user.message)
-            //   }
-            // if(session?.user.message=='success'){
-            //     toast.success(session?.user.message)
-            //     router.push('/dashboard')
-            // }
-            //   setEmail('')
-            //   setPassword('')
-            // setFirstName('');
-            // setLastName('')
+            if(data?.error){
+                toast.error(session?.user.message)
+              }
+            if(data?.ok){
+                toast.success(session?.user.message)
+                router.push('/dashboard')
+            }
+              setEmail('')
+              setPassword('')
+            setFirstName('');
+            setLastName('')
             console.log(session)
            
 

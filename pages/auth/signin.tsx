@@ -10,11 +10,13 @@ const Signin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     
-      console.log(session)
-      if(session?.user.message=='success'){
-    //    notify = toast.success(session?.user.message)
-        router.push('/dashboard')
-      }
+    //   console.log(session)
+    //   if(session?.user.message=='success'){
+    //      toast.success(session?.user.message)
+    //     router.push('/dashboard')
+    //   }
+
+      
     
 
     
@@ -25,8 +27,6 @@ const Signin = () => {
         try {
             
             console.log({ email, password, text: 'logging' })
-
-            
             const data = await signIn("credentials", {
                 email: email,
                 password: password,
@@ -35,16 +35,23 @@ const Signin = () => {
             });
             data;
             console.log('AuthPage')
-            // console.log(data)
+            console.log(data)
             console.log(session)
+            if(data?.error){
+                toast.error(session?.user.message);
+               
+             }
+
+             if(data?.ok){
+                toast.success( session?.user.message,)
+                router.push('/dashboard')
+             }
             // notify
          
           setEmail('')
           setPassword('')
             
-            
-
-
+        
             } catch (error) {
             console.log('error')
             console.log(error);

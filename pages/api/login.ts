@@ -27,10 +27,13 @@ export default async function handler(
 
         return res.status(200).json({ message:'success',user:userData });
       }else{
-       return res.status(200).json({
-            message:"Invalid credentials",
+      //  return res.status(200).json({
+      //       message:"Invalid credentials",
+           
          
-        })
+      //   })
+
+       throw new Error('Invalid credentials')
       }
 
 
@@ -41,6 +44,7 @@ export default async function handler(
     }else{
         res.status(200).json({
             message:"Invalid Email",
+            error:"Invalid credentials"
          
         })
 

@@ -25,9 +25,7 @@ export async function getServerSideProps(context: GetSessionParams | undefined) 
 
 const Dashboard = () => {
 
-    
-
-
+  
     const router =  useRouter()
     const  handleLogout=async()=>{
         const data = await signOut({redirect:false,});
