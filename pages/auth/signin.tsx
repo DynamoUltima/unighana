@@ -1,35 +1,41 @@
+import { useFormik } from "formik";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
+import * as Yup from "yup";
 
 const Signin = () => {
     const router = useRouter();
     const { data: session } = useSession()
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     
-    //   console.log(session)
-    //   if(session?.user.message=='success'){
-    //      toast.success(session?.user.message)
-    //     router.push('/dashboard')
-    //   }
-
-      
     
-
-    
-
-    const handleLogin = async (e: any) => {
-        e.preventDefault()
+   
+    const formik = useFormik({
+        initialValues: {
+          email:'',
+          password:''
+         
+        },
+        validationSchema: Yup.object({
+          email: Yup.string().email()
+            .required('email is a required field!!'),
+          password: Yup.string().required('password is a required field'),
+          
         
-        try {
+    
+        }),
+        validateOnChange:false,
+        onSubmit:async (values,{ resetForm }) => {
+          console.log(values);
+          console.log('clicked');
+          try {
             
-            console.log({ email, password, text: 'logging' })
+           
             const data = await signIn("credentials", {
-                email: email,
-                password: password,
+                email: values.email,
+                password: values.password,
                 redirect: false,
                 
             });
@@ -38,18 +44,15 @@ const Signin = () => {
             console.log(data)
             console.log(session)
             if(data?.error){
-                toast.error(session?.user.message);
+                toast.error('Invalid Credentials');
                
              }
 
              if(data?.ok){
-                toast.success( session?.user.message,)
+                toast.success( 'Successful')
                 router.push('/dashboard')
              }
-            // notify
-         
-          setEmail('')
-          setPassword('')
+            resetForm()
             
         
             } catch (error) {
@@ -57,11 +60,15 @@ const Signin = () => {
             console.log(error);
 
         }
+          
+        }
+      })
+      
+    
 
-    }
+    
 
-
-
+   
 
 
 
@@ -81,7 +88,7 @@ const Signin = () => {
                             </a>
                         </p>
                     </div>
-                    <form className="mt-8 space-y-6" action="#" method="POST">
+                    <form onSubmit={formik.handleSubmit} className="mt-8 space-y-6" action="#" method="POST">
                         <input type="hidden" name="remember" defaultValue="true" />
                         <div className="rounded-md shadow-sm -space-y-px">
                             <div>
@@ -93,12 +100,13 @@ const Signin = () => {
                                     name="email"
                                     type="email"
                                     autoComplete="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    value={formik.values.email}
+                                    onChange={formik.handleChange}
                                     required
                                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-[#2DD4BF] focus:border-[#2DD4BF] focus:z-10 sm:text-sm"
                                     placeholder="Email address"
                                 />
+                                
                             </div>
                             <div>
                                 <label htmlFor="password" className="sr-only">
@@ -109,22 +117,23 @@ const Signin = () => {
                                     name="password"
                                     type="password"
                                     autoComplete="current-password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    value={formik.values.password}
+                                    onChange={formik.handleChange}
                                     required
                                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-[#2DD4BF] focus:border-[#2DD4BF] focus:z-10 sm:text-sm"
                                     placeholder="Password"
                                 />
                             </div>
+                            
                         </div>
+                        {formik.errors.email ? <p className='text-red-400 '>{formik.errors.email} </p> :null}
+                        {formik.errors.password ? <p className='text-red-400 '>{formik.errors.password} </p> :null}
 
                        
 
                         <div className="py-10">
                             <button
-                                // onSubmit={handleSignUp}
-                                onClick={handleLogin}
-                                type="submit"
+                                
                                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#2DD4BF] hover:bg-[#2DD4BF] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 
                             >

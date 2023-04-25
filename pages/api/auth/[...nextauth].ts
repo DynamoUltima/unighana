@@ -61,7 +61,7 @@ export default NextAuth({
 
           let user;
           if(!firstName){
-            const response = await axios.post('https://unighana-pi.vercel.app/api/login', {
+            const response = await axios.post('https://unighana-pi.vercel.app//api/login', {
               email, password
             })
     
@@ -73,7 +73,7 @@ export default NextAuth({
 
           
             if(firstName){
-              const response = await axios.post('https://unighana-pi.vercel.app/api/signup', {
+              const response = await axios.post('https://unighana-pi.vercel.app//api/signup', {
                 email, password
               })
       

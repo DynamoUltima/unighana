@@ -1,9 +1,11 @@
 // import { LockClosedIcon } from "@heroicons/react/solid";
+import { useFormik } from "formik";
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
+import * as Yup from "yup";
 
 
 
@@ -13,60 +15,67 @@ const SignUp = () => {
     const router = useRouter();
 
     const { data: session } = useSession()
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
     
 
-    // if (session?.user.message=='success') {
-    //     toast.success(session?.user.message)
-    //     router.push('/dashboard')
-    // }
+    const formik = useFormik({
+        initialValues: {
+            firstName:'',
+          lastName:'',
+          email:'',
+          password:'',
+          
+         
+        },
+        validationSchema: Yup.object({
+          email: Yup.string().email()
+            .required('email is a required field!!'),
+          password: Yup.string().required('password is a required field'),
+          firstName: Yup.string().required('firstName is a required field'),
+          lastName: Yup.string().required('lastName is a required field'),
 
-
-    const handlesignUp = async (e: any) => {
-        e.preventDefault()
-
-        console.log({firstName,lastName,email,password})
-
-        try {
-
+          
+        
+    
+        }),
+        validateOnChange:true,
+        onSubmit:async (values,{ resetForm }) => {
+          console.log(values);
+          console.log('clicked');
+          try {
+            
+    
             const data = await signIn("credentials", {
-                email: email,
-                password: password,
-                firstName,
-                lastName,
+                email: values.email,
+                password: values.password,
+                firstName:values.firstName,
+                lastName:values.lastName,
                 redirect: false,
-                // callbackUrl: "http://localhost:8080/businessPage",
+                
             });
-            console.log('signupPage')
+            data;
+            console.log('AuthPage')
             console.log(data)
-            // console.log(session)
-            if(data?.error){
-                toast.error(session?.user.message)
-              }
-            if(data?.ok){
-                toast.success(session?.user.message)
-                router.push('/dashboard')
-            }
-              setEmail('')
-              setPassword('')
-            setFirstName('');
-            setLastName('')
             console.log(session)
-           
+            if(data?.error){
+                toast.error('Invalid Credentials');
+               
+             }
 
-
-        } catch (error) {
+             if(data?.ok){
+                toast.success(' Succesful',)
+                router.push('/dashboard')
+             }
+            resetForm()
+            
+        
+            } catch (error) {
+            console.log('error')
             console.log(error);
 
         }
-
-
-        
-
-    }
+          
+        }
+      })
 
 
     return (
@@ -85,19 +94,19 @@ const SignUp = () => {
                             </a>
                         </p>
                     </div>
-                    <form className="mt-8 space-y-0" action="#" method="POST">
+                    <form onSubmit={formik.handleSubmit} className="mt-8 space-y-0" action="#" method="POST">
                         <input type="hidden" name="remember" defaultValue="true" />
                         <div>
                             <label htmlFor="first-name" className="sr-only">
                                 First Name
                             </label>
                             <input
-                                id="first-name"
-                                name="first-name"
+                                id="firstName"
+                                name="firstName"
                                 type="text"
-                                // autoComplete="email"
-                                value={firstName}
-                                onChange={(e) => setFirstName(e.target.value)}
+                                autoComplete="first-name"
+                                value={formik.values.firstName}
+                                onChange={formik.handleChange}
                                 required
                                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-[#2DD4BF] focus:border-[#2DD4BF] focus:z-10 sm:text-sm"
                                 placeholder="first Name"
@@ -108,12 +117,12 @@ const SignUp = () => {
                                 Last Name
                             </label>
                             <input
-                                id="last-name"
-                                name="last-name"
+                                id="lastName"
+                                name="lastName"
                                 type="text"
                                 // autoComplete="email"
-                                value={lastName}
-                                onChange={(e) => setLastName(e.target.value)}
+                                value={formik.values.lastName}
+                                onChange={formik.handleChange}
                                 required
                                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-[#2DD4BF] focus:border-[#2DD4BF] focus:z-10 sm:text-sm"
                                 placeholder="Last Name"
@@ -128,9 +137,9 @@ const SignUp = () => {
                                     id="email-address"
                                     name="email"
                                     type="email"
-                                    autoComplete="new-email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    autoComplete="off"
+                                    value={formik.values.email}
+                                    onChange={formik.handleChange}
                                     required
                                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-[#2DD4BF] focus:border-[#2DD4BF] focus:z-10 sm:text-sm"
                                     placeholder="Email address"
@@ -145,9 +154,9 @@ const SignUp = () => {
                                     id="password"
                                     name="password"
                                     type="password"
-                                    autoComplete="new-password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    autoComplete="off"
+                                    value={formik.values.password}
+                                    onChange={formik.handleChange}
                                     required
                                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-[#2DD4BF] focus:border-[#2DD4BF] focus:z-10 sm:text-sm"
                                     placeholder="Password"
@@ -159,8 +168,8 @@ const SignUp = () => {
 
                         <div className="pt-10">
                             <button
-                                //  onSubmit={handlesignUp}
-                                 onClick={handlesignUp}
+                                // //  onSubmit={handlesignUp}
+                                //  onClick={handlesignUp}
                                 type="submit"
                                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#2DD4BF] hover:bg-[#2DD4BF] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2DD4BF]"
 
@@ -179,6 +188,11 @@ const SignUp = () => {
                                 </p>
                                 </Link>
                             </div>
+
+                            {formik.errors.email ? <p className='text-red-400 '>{formik.errors.email} </p> :null}
+                            {formik.errors.password ? <p className='text-red-400 '>{formik.errors.password} </p> :null}
+                            {formik.errors.firstName ? <p className='text-red-400 '>{formik.errors.firstName} </p> :null}
+                            {formik.errors.lastName ? <p className='text-red-400 '>{formik.errors.lastName} </p> :null}
 
                     </form>
                     <ToastContainer />
